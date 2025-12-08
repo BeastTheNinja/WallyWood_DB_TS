@@ -222,7 +222,7 @@ Ensure `JWT_SECRET` is set in `.env` file
 
 ## 📝 License
 
-ISC
+MIT
 
 ---
 
