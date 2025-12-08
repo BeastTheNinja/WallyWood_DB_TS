@@ -19,54 +19,98 @@ enum Role {
 }
 
 model User {
-  id Int @id @default(autoincrement())
- firstname String
- lastname  String
-  email     String @unique
+  id        Int     @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String  @unique
   password  String
-  role    Role   @default(USER)
-  isActive  Boolean
+  role      Role    @default(USER)
+  isActive  Boolean @default(true)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  cartLines    Cartline[]
+  userRatings  UserRating[]
 
   @@map("user")
 }
-model userRatings {
-  id Int @id @default(autoincrement())
-  userId Int
-  posterId Int
-  numStars Int
+
+model UserRating {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  posterId  Int
+  numStars  Int
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  poster Poster  @relation(fields: [posterId], references: [id], onDelete: Cascade)
+
+  @@map("user_rating")
+  @@unique([userId, posterId])
 }
 
-model cartlines {
-  id Int @id @default(autoincrement())
-  userId Int
-  posterId Int
-  quantity Int 
-  createdAt DateTime @default(now())
-}
-model posters {
-  id Int @id @default(autoincrement())
-  name String
-  slug String @unique
-  description String
-  image String
-  width Int
-  height Int
-  price Float
-  stock Int
+model Cartline {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  posterId  Int
+  quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relationships
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  poster Poster @relation(fields: [posterId], references: [id], onDelete: Cascade)
+
+  @@map("cartline")
+  @@unique([userId, posterId])
 }
-model genres {
-  id Int @id @default(autoincrement())
-  title String
-  slug String @unique
+
+model Poster {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String   @db.Text
+  image       String
+  width       Int
+  height      Int
+  price       Float
+  stock       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  cartLines   Cartline[]
+  userRatings UserRating[]
+  genres      GenrePosterRel[]
+
+  @@map("poster")
+}
+
+model Genre {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relationships
+  posters GenrePosterRel[]
+
+  @@map("genre")
 }
-model genrePosterRel {
-  id Int @id @default(autoincrement())
-  genreId Int
+
+model GenrePosterRel {
+  id       Int @id @default(autoincrement())
+  genreId  Int
   posterId Int
+
+  // Relationships
+  genre  Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  poster Poster @relation(fields: [posterId], references: [id], onDelete: Cascade)
+
+  @@map("genre_poster_rel")
+  @@unique([genreId, posterId])
 }

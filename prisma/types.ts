@@ -6,7 +6,43 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
     email: 'string',
     password: 'string',
     role: 'string',
-    isActive: 'boolean'
+    isActive: 'boolean',
   },
-  // Her kommer næste model
+  genre: {
+    id: 'number',
+    title: 'string',
+    slug: 'string',
+    createdAt: 'date',
+    updatedAt: 'date',
+  },
+  poster: {
+    id: 'number',
+    name: 'string',
+    slug: 'string',
+    description: 'string',
+    image: 'string',
+    width: 'number',
+    height: 'number',
+    price: 'number',
+    stock: 'number',
+    createdAt: 'date',
+    updatedAt: 'date',
+  },
+  genrePosterRel: {
+    id: 'number',
+    genreId: 'number',
+    posterId: 'number',
+  },
+  cartline: {
+    id: 'number',
+    userId: 'number',
+    posterId: 'number',
+    quantity: 'number',
+  },
+  userRating: {
+    id: 'number',
+    userId: 'number',
+    posterId: 'number',
+    numStars: 'number',
+  },
 };
