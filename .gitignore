@@ -1,18 +1,44 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Node.js
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
-# Other files and folders
-.settings/
+# Environment variables
+.env
+.env.local
+.env.*.local
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Prisma
+/src/generated/prisma
+/prisma/migrations/
+.prisma/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# TypeScript
+*.tsbuildinfo
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.iml
+.DS_Store
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
