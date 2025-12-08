@@ -15,7 +15,6 @@ pnpm-lock.yaml
 
 # Prisma
 /src/generated/prisma
-/prisma/migrations/
 .prisma/
 
 # TypeScript
@@ -42,3 +41,15 @@ logs/
 # Testing
 coverage/
 .nyc_output/
+
+# IDE settings
+.editorconfig
+*.bak
+*~
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+.lnk
