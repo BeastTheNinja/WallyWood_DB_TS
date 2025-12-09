@@ -13,38 +13,48 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
+/// User role types - ADMIN has full access, USER has limited access
 enum Role {
   ADMIN
   USER
 }
 
+/// User model - stores user accounts with authentication
 model User {
   id        Int     @id @default(autoincrement())
+  /// User's first name
   firstname String
+  /// User's last name
   lastname  String
+  /// User's email - must be unique for login
   email     String  @unique
+  /// Hashed password using bcrypt
   password  String
+  /// User role for access control
   role      Role    @default(USER)
+  /// Whether the user account is active
   isActive  Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relationships
+  /// Relationships
   cartLines    Cartline[]
   userRatings  UserRating[]
 
   @@map("user")
 }
 
+/// User ratings for posters - 1 to 5 stars
 model UserRating {
   id        Int      @id @default(autoincrement())
   userId    Int
   posterId  Int
+  /// Rating value from 1-5 stars
   numStars  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relationships
+  /// Relationships
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   poster Poster  @relation(fields: [posterId], references: [id], onDelete: Cascade)
 
@@ -52,15 +62,17 @@ model UserRating {
   @@unique([userId, posterId])
 }
 
+/// Shopping cart items for users
 model Cartline {
   id        Int      @id @default(autoincrement())
   userId    Int
   posterId  Int
+  /// Number of items to purchase
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relationships
+  /// Relationships
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   poster Poster @relation(fields: [posterId], references: [id], onDelete: Cascade)
 
@@ -81,7 +93,7 @@ model Poster {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  // Relationships
+  /// Relationships
   cartLines   Cartline[]
   userRatings UserRating[]
   genres      GenrePosterRel[]
@@ -96,7 +108,7 @@ model Genre {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relationships
+  /// Relationships
   posters GenrePosterRel[]
 
   @@map("genre")
@@ -107,7 +119,7 @@ model GenrePosterRel {
   genreId  Int
   posterId Int
 
-  // Relationships
+  /// Relationships
   genre  Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
   poster Poster @relation(fields: [posterId], references: [id], onDelete: Cascade)
 
