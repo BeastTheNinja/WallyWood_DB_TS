@@ -1,26 +1,37 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { userRoutes } from './routes/userRoutes.js';
+import { postersRoutes } from './routes/postersRoutes.js';
+import { genresRoutes } from './routes/genresController.js';
+import { cartLinesRoutes } from './routes/cartLinesController.js';
+import { ratingsRoutes } from './routes/ratingsRoutes.js';
 
-// Indlæs miljøvariabler fra .env (uden at vise logs)
+// Load environment variables
 dotenv.config({ quiet: true });
 
-// Brug port fra .env eller falde tilbage til 3000
+// Use port from .env or default to 3000
 const port = process.env.PORT || 3000;
 
-// Opret express-app
+// Create express app
 const app = express();
 
-// Gør det muligt at modtage JSON i requests
+// Middleware
 app.use(express.json());
-
-// Gør det muligt at modtage form-data (fx fra formularer)
 app.use(express.urlencoded({ extended: true }));
 
-// Brug vores user-routes under /api/users
+// Routes
 app.use('/api/users', userRoutes);
+app.use('/api/posters', postersRoutes);
+app.use('/api/genres', genresRoutes);
+app.use('/api/cartlines', cartLinesRoutes);
+app.use('/api/ratings', ratingsRoutes);
 
-// Start serveren
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'API is running' });
+});
+
+// Start server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
