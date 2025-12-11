@@ -29,12 +29,11 @@ async function main() {
   for (const file of csvFiles) {
     const model = fileToModel[file];
     if (!model) {
-      console.log(`⏭️ Skipping unknown file: ${file}`);
+      console.log(`Skipping unknown file: ${file}`);
       continue;
     }
 
-    console.log(`📥 Processing ${file} for model: ${model}`);
-
+    console.log(`Processing ${file} for model: ${model}`);
     const raw = parse(await readFile(path.join(dir, file), 'utf-8'), {
       columns: true,
       skip_empty_lines: true,
@@ -47,9 +46,9 @@ async function main() {
         data, 
         skipDuplicates: true 
       });
-      console.log(`✅ Created ${data.length} records for ${model}`);
+      console.log(`Created ${data.length} records for ${model}`);
     } catch (error) {
-      console.error(`❌ Error seeding ${model}:`, error);
+      console.error(`Error seeding ${model}:`, error);
     }
   }
 }
@@ -76,7 +75,7 @@ main()
     console.log('✨ Seed completed successfully!');
   })
   .catch(error => {
-    console.error('💥 Seed failed:', error);
+    console.error('Seed failed:', error);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
