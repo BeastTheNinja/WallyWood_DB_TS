@@ -22,7 +22,7 @@ const fileToModel: Record<string, string> = {
 };
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log('Seeding database...');
   
   const csvFiles = (await readdir(dir)).filter(f => f.endsWith('.csv'));
 
@@ -72,7 +72,7 @@ async function cast(model: string, row: any) {
 
 main()
   .then(() => {
-    console.log('✨ Seed completed successfully!');
+    console.log('Seed completed successfully!');
   })
   .catch(error => {
     console.error('Seed failed:', error);
